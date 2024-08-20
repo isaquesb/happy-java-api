@@ -3,6 +3,7 @@ package com.github.isaquesb.happy_java_api.domain.orphanages;
 import com.github.isaquesb.happy_java_api.domain.addresses.Address;
 import com.github.isaquesb.happy_java_api.domain.addresses.Coordinates;
 import com.github.isaquesb.happy_java_api.domain.addresses.Location;
+import com.github.isaquesb.happy_java_api.domain.common.database.audit.AuditableEntity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "orphanages")
-public class Orphanage implements Location {
+public class Orphanage extends AuditableEntity implements Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +35,7 @@ public class Orphanage implements Location {
     @Column(nullable = false)
     private Boolean openOnWeekends;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Address address;
 
     @Embedded

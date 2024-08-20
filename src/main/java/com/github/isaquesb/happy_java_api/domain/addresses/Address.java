@@ -1,10 +1,11 @@
 package com.github.isaquesb.happy_java_api.domain.addresses;
 
+import com.github.isaquesb.happy_java_api.domain.common.database.audit.AuditableEntity;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "addresses")
-public class Address {
+public class Address extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

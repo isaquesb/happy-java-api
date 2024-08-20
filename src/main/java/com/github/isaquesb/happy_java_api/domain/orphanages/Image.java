@@ -1,10 +1,11 @@
 package com.github.isaquesb.happy_java_api.domain.orphanages;
 
+import com.github.isaquesb.happy_java_api.domain.common.database.audit.AuditableEntity;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "orphanages_images")
-public class Image {
+public class Image extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
