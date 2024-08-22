@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ${APP_NAME:happy-java-api}
+auth:
+  api:
+    header-name: X-API-KEY
+    secret: ${API_KEY_SECRET}
