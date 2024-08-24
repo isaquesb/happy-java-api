@@ -4,41 +4,57 @@ import com.github.isaquesb.happy_java_api.domain.addresses.Address;
 import com.github.isaquesb.happy_java_api.domain.addresses.Coordinates;
 import com.github.isaquesb.happy_java_api.domain.addresses.Location;
 import com.github.isaquesb.happy_java_api.domain.common.database.audit.AuditableEntity;
+import com.github.isaquesb.happy_java_api.domain.common.validation.rules.OneOfTwo;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "orphanages")
+@OneOfTwo(firstField = "coordinates", secondField = "address", message = "Coordinates or Address is required")
 public class Orphanage extends AuditableEntity implements Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 36)
     private String uuid;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Name is required")
+    @Length(min = 5, max = 100, message = "Name must be between 5 and 100 characters")
     private String name;
 
     @Column(nullable = false)
+    @NotBlank(message = "About is required")
     private String about;
 
     @Column(nullable = false)
+    @NotBlank(message = "Instructions is required")
     private String instructions;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Opening Hours is required")
+    @Length(max = 100, message = "Opening Hours must be less than 100 characters")
     private String openingHours;
 
     @Column(nullable = false)
+    @NotNull(message = "Open On Weekends is required")
     private Boolean openOnWeekends;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @Valid
     private Address address;
 
     @Embedded
+    @Valid
     private Coordinates coordinates;
 
     @OneToMany(mappedBy = "orphanage", cascade = CascadeType.ALL, orphanRemoval = true)

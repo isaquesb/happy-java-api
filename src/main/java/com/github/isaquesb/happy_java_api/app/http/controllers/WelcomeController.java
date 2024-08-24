@@ -1,4 +1,4 @@
-package com.github.isaquesb.happy_java_api.app.http;
+package com.github.isaquesb.happy_java_api.app.http.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

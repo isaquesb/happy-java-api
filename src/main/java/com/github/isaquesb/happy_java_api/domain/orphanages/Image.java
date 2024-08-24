@@ -11,6 +11,9 @@ public class Image extends AuditableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true, length = 36)
+    private String uuid;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orphanage_id")
     private Orphanage orphanage;
@@ -20,6 +23,12 @@ public class Image extends AuditableEntity {
 
     @Column(nullable = false)
     private String path;
+
+    @Column
+    private String downloadUrl;
+
+    @Embedded
+    private ImageMetadata metadata;
 
     public Image() {
     }
@@ -59,5 +68,29 @@ public class Image extends AuditableEntity {
 
     public void setOrphanage(Orphanage orphanage) {
         this.orphanage = orphanage;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public ImageMetadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(ImageMetadata metadata) {
+        this.metadata = metadata;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }

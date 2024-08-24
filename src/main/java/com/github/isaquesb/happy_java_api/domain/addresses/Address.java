@@ -2,6 +2,9 @@ package com.github.isaquesb.happy_java_api.domain.addresses;
 
 import com.github.isaquesb.happy_java_api.domain.common.database.audit.AuditableEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "addresses")
@@ -11,23 +14,35 @@ public class Address extends AuditableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Street is required")
+    @Length(max = 100, message = "Street must be less than 100 characters")
     private String street;
 
+    @Column(nullable = false)
     private String number;
 
+    @Length(max = 100, message = "Complement must be less than 100 characters")
     private String complement;
 
     @Column(nullable = false)
+    @NotBlank(message = "Neighborhood is required")
+    @Length(max = 100, message = "Neighborhood must be less than 100 characters")
     private String neighborhood;
 
     @Column(nullable = false)
+    @NotBlank(message = "City is required")
+    @Length(max = 100, message = "City must be less than 100 characters")
     private String city;
 
     @Column(nullable = false)
+    @NotBlank(message = "State is required")
+    @Length(min = 2, max = 2, message = "State must be 2 characters")
     private String state;
 
     @Column(nullable = false)
+    @NotBlank(message = "Zip code is required")
+    @Length(min = 8, max = 8, message = "Zip code must be 8 characters")
     private String zipCode;
 
     public Address() {
