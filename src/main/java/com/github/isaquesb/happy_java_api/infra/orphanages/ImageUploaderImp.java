@@ -1,15 +1,13 @@
 package com.github.isaquesb.happy_java_api.infra.orphanages;
 
 import com.github.isaquesb.happy_java_api.domain.orphanages.Image;
+import com.github.isaquesb.happy_java_api.domain.orphanages.ImageFactory;
 import com.github.isaquesb.happy_java_api.domain.orphanages.ImageUploader;
 import com.github.isaquesb.happy_java_api.services.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.Objects;
 
 @Service
 public class ImageUploaderImp implements ImageUploader {
@@ -17,21 +15,19 @@ public class ImageUploaderImp implements ImageUploader {
     private FileStorage fileStorage;
 
     @Override
-    public Image createFromFile(MultipartFile file) throws Exception {
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-
-        fileStorage.save(file);
+    public Image createFromFile(MultipartFile file, String destinationPath) throws Exception {
+        var filePath = fileStorage.put(file, destinationPath);
 
         String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
-                .path(fileName)
-                .toUriString();
+            .path(filePath.toString())
+            .toUriString();
 
-        var image = new Image();
+        Image image = ImageFactory.create();
 
         image.setDisk("local");
-        image.setPath("uploads/" + fileName);
+        image.setPath(filePath.toString());
         image.setDownloadUrl(downloadUrl);
+        image.setMetadata(ImageFactory.metadataFromFile(file));
 
         return image;
     }

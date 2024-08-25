@@ -26,9 +26,10 @@ public class Security {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                 authorizationManagerRequestMatcherRegistry
-                    .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+                    //.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                     //.requestMatchers("/admin/**").hasAnyRole("ADMIN")
                     //.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                    //.requestMatchers("/login/**").permitAll()
                     //.requestMatchers("/login/**").permitAll()
                     .anyRequest()
                     .authenticated()

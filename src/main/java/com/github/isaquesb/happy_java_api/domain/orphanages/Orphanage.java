@@ -3,12 +3,10 @@ package com.github.isaquesb.happy_java_api.domain.orphanages;
 import com.github.isaquesb.happy_java_api.domain.addresses.Address;
 import com.github.isaquesb.happy_java_api.domain.addresses.Coordinates;
 import com.github.isaquesb.happy_java_api.domain.addresses.Location;
-import com.github.isaquesb.happy_java_api.domain.common.database.audit.AuditableEntity;
 import com.github.isaquesb.happy_java_api.domain.common.validation.rules.OneOfTwo;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "orphanages")
 @OneOfTwo(firstField = "coordinates", secondField = "address", message = "Coordinates or Address is required")
-public class Orphanage extends AuditableEntity implements Location {
+public class Orphanage implements Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +55,7 @@ public class Orphanage extends AuditableEntity implements Location {
     @Valid
     private Coordinates coordinates;
 
-    @OneToMany(mappedBy = "orphanage", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orphanage", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Image> images = new ArrayList<>();
 
     public Orphanage() {

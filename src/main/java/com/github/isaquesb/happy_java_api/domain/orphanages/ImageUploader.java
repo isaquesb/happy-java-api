@@ -4,5 +4,5 @@ import com.github.isaquesb.happy_java_api.domain.common.exceptions.ValidationExc
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageUploader {
-    Image createFromFile(MultipartFile file) throws ValidationException, Exception;
+    Image createFromFile(MultipartFile file, String destinationPath) throws ValidationException, Exception;
 }

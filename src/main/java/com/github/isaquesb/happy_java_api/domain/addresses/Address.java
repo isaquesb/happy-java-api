@@ -1,14 +1,12 @@
 package com.github.isaquesb.happy_java_api.domain.addresses;
 
-import com.github.isaquesb.happy_java_api.domain.common.database.audit.AuditableEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "addresses")
-public class Address extends AuditableEntity {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +17,7 @@ public class Address extends AuditableEntity {
     @Length(max = 100, message = "Street must be less than 100 characters")
     private String street;
 
-    @Column(nullable = false)
+    @Column
     private String number;
 
     @Length(max = 100, message = "Complement must be less than 100 characters")
